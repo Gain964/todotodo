@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>일주일 할 일 메모장</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f4f7fa;
+      padding: 20px;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 20px;
+    }
+
+    .input-area {
+      margin-bottom: 30px;
+    }
+
+    input, select, button {
+      margin: 6px;
+      padding: 8px 12px;
+      font-size: 14px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      background-color: #28a745;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      border: none;
+    }
+
+    button:hover {
+      background-color: #218838;
+    }
+
+    .week {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      justify-items: center;
+    }
+
+    .day {
+      background: #e6f2ff;           /* 연한 파란색 배경 */
+      border: 1.5px dashed #6ba4ff;  /* 연파랑 테두리 */
+      border-radius: 12px;
+      width: 230px;
+      height: 230px;
+      padding: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      text-align: left;
+    }
+
+    .day h2 {
+      margin: 5px 0 10px 0;
+      font-size: 1.2rem;
+      color: #333;
+      border-bottom: 2px solid black;  /* 검정 밑줄 */
+      padding-bottom: 6px;
+    }
+
+    .task-list {
+      flex: 1;
+      overflow-y: auto;
+      font-size: 14px;
+      line-height: 1.4;
+    }
+  </style>
+</head>
+<body>
+  <h1>일주일 할 일 메모장</h1>
+  <div class="input-area">
+    <input type="text" id="taskInput" placeholder="할 일을 입력하세요" />
+    <input type="time" id="timeInput" />
+    <select id="daySelect">
+      <option>월요일</option>
+      <option>화요일</option>
+      <option>수요일</option>
+      <option>목요일</option>
+      <option>금요일</option>
+      <option>토요일</option>
+      <option>일요일</option>
+    </select>
+    <select id="prioritySelect">
+      <option>중요도 보통</option>
+      <option>중요</option>
+      <option>매우 중요</option>
+    </select>
+    <button id="addTaskBtn">할 일 추가</button>
+  </div>
+
+  <div class="week">
+    <div class="day" id="월요일">
+      <h2>월요일</h2>
+      <div class="task-list"></div>
+    </div>
+    <div class="day" id="화요일">
+      <h2>화요일</h2>
+      <div class="task-list"></div>
+    </div>
+    <div class="day" id="수요일">
+      <h2>수요일</h2>
+      <div class="task-list"></div>
+    </div>
+    <div class="day" id="목요일">
+      <h2>목요일</h2>
+      <div class="task-list"></div>
+    </div>
+    <div class="day" id="금요일">
+      <h2>금요일</h2>
+      <div class="task-list"></div>
+    </div>
+    <div class="day" id="토요일">
+      <h2>토요일</h2>
+      <div class="task-list"></div>
+    </div>
+    <div class="day" id="일요일">
+      <h2>일요일</h2>
+      <div class="task-list"></div>
+    </div>
+  </div>
+
+  <script>
+    // 함수 전역 노출 없이 addEventListener 방식으로 버튼에 연결 (더 안정적)
+    document.getElementById('addTaskBtn').addEventListener('click', function() {
+      const task = document.getElementById('taskInput').value.trim();
+      const time = document.getElementById('timeInput').value;
+      const day = document.getElementById('daySelect').value;
+      const priority = document.getElementById('prioritySelect').value;
+
+      if (!task || !time) {
+        alert('할 일과 시간을 모두 입력해주세요.');
+        return;
+      }
+
+      const taskList = document.querySelector(`#${day} .task-list`);
+      const taskItem = document.createElement('div');
+      taskItem.textContent = `[${time}] ${task}`;
+
+      if (priority === '중요') {
+        taskItem.style.color = 'orange';
+      } else if (priority === '매우 중요') {
+        taskItem.style.color = 'red';
+        taskItem.style.fontWeight = 'bold';
+      }
+
+      taskList.appendChild(taskItem);
+
+      // 입력 초기화
+      document.getElementById('taskInput').value = '';
+      document.getElementById('timeInput').value = '';
+    });
+  </script>
+</body>
+</html>
